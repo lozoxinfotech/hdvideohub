@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>HD Video Hub — Landing</title>
+  <meta name="description" content="HD Video Hub - dark themed streaming style landing for Adsterra ads" />
+  <style>
+    :root{
+      --bg:#000;
+      --card:#0f0f10;
+      --muted:#9aa0a6;
+      --glass: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:60px;
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter: blur(6px);
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .logo{
+      width:36px;height:36px;border-radius:6px;
+      background:linear-gradient(135deg,#ff3d81,#7b61ff);
+      display:flex;align-items:center;justify-content:center;font-weight:700;
+      box-shadow:0 6px 18px rgba(123,97,255,0.14);
+    }
+    h1{font-size:18px;margin:0;letter-spacing:0.4px}
+    .sub{color:var(--muted);font-size:12px}
+
+    .container{max-width:1100px;margin:18px auto;padding:0 14px}
+    .ad-banner{
+      background:var(--card);
+      border-radius:12px;
+      padding:10px;
+      margin-bottom:16px;
+      text-align:center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.01);
+    }
+
+    /* Grid */
+    .video-grid{
+      display:grid;
+      gap:16px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media(min-width:700px){
+      .video-grid{grid-template-columns: repeat(3, 1fr)}
+    }
+    @media(min-width:1000px){
+      .video-grid{grid-template-columns: repeat(4, 1fr)}
+    }
+
+    .card{
+      position:relative;
+      border-radius:12px;
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .card:hover{
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 18px 40px rgba(123,97,255,0.12);
+    }
+
+    .thumb{
+      width:100%;
+      height:0;padding-bottom:56%; /* 16:9 */
+      background-size:cover;
+      background-position:center;
+      position:relative;
+      transition: transform .3s ease, filter .25s;
+    }
+    .card:hover .thumb{ transform: scale(1.06); filter:brightness(.96) saturate(1.02); }
+
+    /* fancy glass play button */
+    .play-glass{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      pointer-events:none;
+    }
+    .play{
+      width:70px;height:70px;border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;color:white;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 6px 26px rgba(0,0,0,0.6), 0 0 26px rgba(123,97,255,0.08);
+      backdrop-filter: blur(6px);
+      transition: transform .22s ease, box-shadow .22s;
+    }
+    .card:hover .play{ transform: scale(1.07); box-shadow: 0 10px 32px rgba(123,97,255,0.16); }
+
+    .meta{
+      padding:10px 12px 14px;
+      display:flex;flex-direction:column;gap:6px;
+    }
+    .title{font-weight:700;font-size:14px;color:#e9e9ea;margin:0}
+    .meta .info{font-size:12px;color:var(--muted)}
+
+    footer{
+      position:fixed;left:0;right:0;bottom:0;
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-top:1px solid rgba(255,255,255,0.02);
+      padding:10px 14px;
+      text-align:center;color:var(--muted);font-size:13px;
+    }
+
+    /* small badge for duration or hd */
+    .badge{
+      position:absolute;right:8px;top:8px;background:rgba(0,0,0,0.45);
+      padding:6px 8px;border-radius:8px;font-size:12px;color:#fff;border:1px solid rgba(255,255,255,0.04)
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">HD</div>
+      <div>
+        <h1>HD Video Hub</h1>
+        <div class="sub">Premium-looking landing for Adsterra</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="font-size:13px;color:var(--muted)">Deployed on Vercel</div>
+      <a href="#" style="text-decoration:none;color:#fff;background:linear-gradient(90deg,#7b61ff,#ff3d81);padding:8px 12px;border-radius:8px;font-weight:600;font-size:13px">Get App</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Top Ad slot (paste Adsterra banner script here) -->
+    <div class="ad-banner" id="top-ad">
+      <!-- PASTE Adsterra BANNER SCRIPT HERE (or leave empty to keep space) -->
+      <div style="color:var(--muted);font-size:13px">Ad slot — paste Adsterra script here</div>
+    </div>
+
+    <section class="video-grid" id="grid">
+      <!-- Example cards. Replace data-ad with your ad URL or use the href method shown below -->
+      <a class="card" href="player.html?ad=https%3A%2F%2Fexample-ad-link.com%2Fclick1&title=Movie%201&img=https%3A%2F%2Fvia.placeholder.com%2F800x450.png%3Ftext%3DMovie%201" >
+        <div class="thumb" style="background-image:url('assets/1.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">HD</div>
+        </div>
+        <div class="meta">
+          <div class="title">Big Stepbrother, Why Did You Show Me Your Dick?... </div>
+          <div class="info">Action • 2025 • 2.1M views</div>
+        </div>
+      </a>
+
+      <a class="card" href="player.html?ad=https%3A%2F%2Fexample-ad-link.com%2Fclick2&title=Movie%202&img=https%3A%2F%2Fvia.placeholder.com%2F800x450.png%3Ftext%3DMovie%202">
+        <div class="thumb" style="background-image:url('assets/2.jpg">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">NEW</div>
+        </div>
+        <div class="meta">
+          <div class="title">Blacked Tori Black Is Oiled Up And Dominated By Two BBCs</div>
+          <div class="info">Drama • 2024 • 1.8M views</div>
+        </div>
+      </a>
+
+      <!-- JS-powered card example (data-ad attribute) -->
+      <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/3.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Amber's Teen Pussy Is Step Daddy's Favorite</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+
+      <a class="card" href="player.html?ad=https%3A%2F%2Fexample-ad-link.com%2Fclick4&title=Movie%204&img=https%3A%2F%2Fvia.placeholder.com%2F800x450.png%3Ftext%3DMovie%204">
+        <div class="thumb" style="background-image:url('assets/4.jpg">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">HD</div>
+        </div>
+        <div class="meta">
+          <div class="title">The Mind Fuck Act</div>
+          <div class="info">Comedy • 2021 • 2.3M views</div>
+        </div>
+      </a>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/5.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">A StepMother And StepSon Affair w/ Dolci</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/6.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Cock-hungry Busty MILF Cory Chase Has Hardcore Fuck with Step-nephew After Hot Shower</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/7.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">The Jealous Stepsister</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/8.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Just an Adorable Busty Girl Gets Deep Creampie After Nude Photoshoot in the Private Villa!</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/9.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">They Taught Their Virgin Stepdaughter How to Get Her Perfect Ass Fucked</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/10.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Colombian Tiktoker Records Her First Porn Video - Danner Mendez & Iriannis Rodriguez</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/11.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">My Deepest Throat Is Overflowing with Cum and Saliva! Young Polly Young Gags From a Hard Blowjob!</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/12.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Never have I ever</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/13.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">Natural beauty treated like a blow up doll in the pick up van</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/14.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Cheap Pregnant Hooker</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/15.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Fist fucking lesbians</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/16.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Lola Bratz kittyquinnxx</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/17.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">lesbian dates</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/18.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Big tits curvy mature milf walks in on cheating husband and joins</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/19.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">FamilyStroking - Big Tits Blonde Stepmom Walks In On Skinny Blonde Teen Fucking Her Stepson And Joins In - London River, Sophia Sterling, Max Fills</div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+	  
+	  <div class="card" role="button" onclick="goToPlayer(this)" data-ad="https://shorturl.at/118rX" data-title="Movie 3" data-img="https://via.placeholder.com/800x450.png?text=Movie+3">
+        <div class="thumb" style="background-image:url('assets/20.jpg')">
+          <div class="play-glass"><div class="play">▶</div></div>
+          <div class="badge">4K</div>
+        </div>
+        <div class="meta">
+          <div class="title">Blonde Big Tits MILF Stepmom Nina Elle Joins Stepson Juan "El Caballo" Loco And His Teen Girlfriend Amina Fara For Threesome </div>
+          <div class="info">Thriller • 2022 • 980k views</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Bottom ad slot -->
+    <div class="ad-banner" id="bottom-ad" style="margin-top:18px">
+      <!-- PASTE Adsterra SCRIPT (or another ad unit) -->
+      <div style="color:var(--muted);font-size:13px">Bottom ad slot — paste Adsterra script here</div>
+    </div>
+  </main>
+
+  <footer>© 2025 HD Video Hub • Built for Adsterra placements • Hosted on Vercel</footer>
+
+  <script>
+    /* helper for JS-powered cards */
+    function goToPlayer(el){
+      const ad = encodeURIComponent(el.getAttribute('data-ad') || '');
+      const title = encodeURIComponent(el.getAttribute('data-title') || 'Video');
+      const img = encodeURIComponent(el.getAttribute('data-img') || '');
+      // build url to player.html
+      const url = `player.html?ad=${ad}&title=${title}&img=${img}`;
+      window.location.href = url;
+    }
+
+    /* Optional: lazy-loading thumbnails / progressive enhancements can be added later */
+  </script>
+</body>
+</html>
